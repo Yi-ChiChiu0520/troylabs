@@ -1,0 +1,78 @@
+/* _content/TroyLabs/Views/Shared/_Layout.cshtml.rz.scp.css */
+body[b-57eylcd04s] {
+  padding-top: 80px; /* Adjust based on your navbar height */
+}
+
+.custom-navbar[b-57eylcd04s] {
+  background-color: #00687A;
+}
+
+.custom-nav-link[b-57eylcd04s] {
+  color: white !important;
+  font-weight: 500;
+}
+
+.navbar-toggler[b-57eylcd04s] {
+  border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-toggler-icon[b-57eylcd04s] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse[b-57eylcd04s] {
+      background-color: #00687A;
+      border-radius: 0 0 5px 5px;
+  }
+
+  .user-profile[b-57eylcd04s] {
+    padding: 0;  /* Remove any extra padding */
+    margin: 0;   /* Remove any extra margin */
+  }
+  
+  .user-profile .dropdown-toggle[b-57eylcd04s] {
+    padding: 5px 10px;  /* Adjust this to control the space inside the dropdown */
+    margin: 0;          /* Ensure no margin is applied */
+    border-radius: 20px; /* If you want rounded edges, adjust the radius */
+    margin-left:4px;
+  }
+
+  .main-content[b-57eylcd04s] {
+      transition: margin-top 0.3s ease;
+  }
+
+  .navbar-collapse.show + .main-content[b-57eylcd04s] {
+      margin-top: 20px; /* Adjust based on your collapsed navbar height */
+  }
+}
+
+/* Additional styles for better visibility and interaction */
+.nav-item[b-57eylcd04s] {
+  padding: 5px 0;
+}
+
+.custom-nav-link:hover[b-57eylcd04s], .custom-nav-link:focus[b-57eylcd04s] {
+  background-color: #00687A;
+  ;
+  text-decoration: none;
+}
+
+.text-custom[b-57eylcd04s] {
+  font-size: 15px;
+}
+
+.user-profile[b-57eylcd04s] {
+  padding: 0;  /* Remove any extra padding */
+  margin: 0;   /* Remove any extra margin */
+}
+
+.user-profile .dropdown-toggle[b-57eylcd04s] {
+  padding: 5px 10px;  /* Adjust this to control the space inside the dropdown */
+  margin: 0;          /* Ensure no margin is applied */
+  border-radius: 20px; /* If you want rounded edges, adjust the radius */
+  margin-left:4px;
+}
+
+
+

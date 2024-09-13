@@ -1,0 +1,190 @@
+@using TroyLabs.ViewModels
+@model PagedViewModel<TroyLabs.Models.Survey>
+
+@{
+    ViewData["Title"] = "Surveys";
+}
+<div class="row mb-3 align-items-center">
+    <div class="col-md-8 d-flex align-items-center justify-content-start flex-wrap">
+        <h2 class="me-3 mb-0" style="color: #e73216;">All Feedback</h2>
+    </div>
+</div>
+
+<div class="row mb-3 align-items-center justify-content-between">
+    <div class="col-md-4">
+        <button onclick="window.history.back();" class="btn btn-secondary btn-sm">Back</button>
+    </div>
+    <div class="col-md-8 d-flex justify-content-end">
+        <form method="get" action="@Url.Action("Index")" class="d-flex">
+            <input type="text" name="searchTerm" class="form-control" placeholder="Search Company..." value="@ViewBag.SearchTerm" style="width: 200px;" />
+            <button class="btn btn-outline-secondary ms-2" type="submit" style="width: 80px; white-space: nowrap;">Search</button>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger mt-2">
+        @ViewBag.ErrorMessage
+    </div>
+}
+else{
+    <form asp-action="Index" method="get" class="form-inline">
+        <input type="hidden" name="studentSearchTerm" value="@ViewBag.StudentSearchTerm" />
+        <input type="hidden" name="classesSearchTerm" value="@ViewBag.ClassesSearchTerm" />
+
+        <div class="form-group">
+            <select id="sortOrder" name="sortOrder" class="form-control" onchange="this.form.submit();" style="width: 300px;">
+                <option value="">Select Sorting</option>
+                @Html.Raw($"<option value='recordDate_asc'{(ViewBag.SortOrder == "recordDate_asc" ? " selected" : "")}>Gift Satisfication Ascending</option>")
+                @Html.Raw($"<option value='recordDate_desc'{(ViewBag.SortOrder == "recordDate_desc" ? " selected" : "")}>Gift Satisfication Descending</option>")
+                @Html.Raw($"<option value='studentNumber_asc'{(ViewBag.SortOrder == "studentNumber_asc" ? " selected" : "")}>Ease of Receiving Ascending</option>")
+                @Html.Raw($"<option value='studentNumber_desc'{(ViewBag.SortOrder == "studentNumber_desc" ? " selected" : "")}>Ease of Receiving Descending</option>")
+                @Html.Raw($"<option value='acedemicTestScore_asc'{(ViewBag.SortOrder == "acedemicTestScore_asc" ? " selected" : "")}>Gift Impact Ascending</option>")
+                @Html.Raw($"<option value='acedemicTestScore_desc'{(ViewBag.SortOrder == "acedemicTestScore_desc" ? " selected" : "")}>Gift Impact Descending</option>")
+            </select>
+        </div>
+    </form>
+<br/>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Gift Satisfaction</th>
+            <th>Ease of Receiving</th>
+            <th>Gift Impact</th>
+            <th>Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var survey in Model.Items) 
+        {
+            <tr>
+                <td>@survey.CustomerName</td>
+                <td>@survey.CompanyName</td>
+                <td>@survey.Position</td>
+                <td>@survey.GiftSatisfaction</td>
+                <td>@survey.EaseofReceiving</td>
+                <td>@survey.GiftImpact</td>
+                <td>
+                    @if (survey.Comments == null)
+                    {
+                        <span class="no-comments">No comments</span>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-custom" data-toggle="modal" data-target="#commentModal" data-comment="@survey.Comments">
+                            View Comments
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav class="d-flex justify-content-center">
+    <ul class="pagination custom-pagination">
+        <!-- Previous Button -->
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, searchTerm=ViewBag.SearchTerm})">«</a>
+        </li>
+
+        <!-- Always show the first page -->
+        <li class="page-item @(Model.PageNumber == 1 ? "active" : "")">
+            <a class="page-link" href="@Url.Action("Index", new { page = 1, searchTerm=ViewBag.SearchTerm})">1</a>
+        </li>
+
+        <!-- Show ellipsis if there are more than two pages between the first page and the current page -->
+        @if (Model.PageNumber > 3)
+        {
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+        }
+
+        <!-- Show the page before the current page if it's not the first or second page -->
+        @if (Model.PageNumber > 2)
+        {
+            var showPage = @Model.PageNumber - 1;
+            <li class="page-item"> 
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, searchTerm=ViewBag.SearchTerm})">@showPage</a>
+            </li>
+        }
+
+        <!-- Show the current page -->
+        @if (Model.PageNumber > 1 && Model.PageNumber < Model.TotalPages)
+        {
+            <li class="page-item active">
+                <span class="page-link">@Model.PageNumber</span>
+            </li>
+        }
+
+        <!-- Show the page after the current page if it's not the last or second to last page -->
+        @if (Model.PageNumber < Model.TotalPages - 1)
+        {
+            var showPage = Model.PageNumber + 1;
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, searchTerm=ViewBag.SearchTerm})">@showPage</a>
+            </li>
+        }
+
+        <!-- Show ellipsis if there are more than two pages between the current page and the last page -->
+        @if (Model.PageNumber < Model.TotalPages - 2)
+        {
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+        }
+
+        <!-- Always show the last page -->
+        @if (Model.TotalPages > 1)
+        {
+            <li class="page-item @(Model.PageNumber == Model.TotalPages ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.TotalPages, searchTerm=ViewBag.SearchTerm})">@Model.TotalPages</a>
+            </li>
+        }
+
+        <!-- Next Button -->
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, searchTerm=ViewBag.SearchTerm})">»</a>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- Modal Structure -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentModalLabel">Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- This is where the comment will be displayed -->
+                <p id="commentText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (Include this in your project if not already included) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- JavaScript to handle the dynamic comment population -->
+<script>
+    $('#commentModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var comment = button.data('comment'); // Extract the comment from data-* attribute
+        var modal = $(this);
+        modal.find('#commentText').text(comment); // Insert the comment into the modal body
+    });
+</script>
+}

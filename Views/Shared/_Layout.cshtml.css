@@ -1,0 +1,77 @@
+﻿body {
+  padding-top: 80px; /* Adjust based on your navbar height */
+}
+
+.custom-navbar {
+  background-color: #00687A;
+}
+
+.custom-nav-link {
+  color: white !important;
+  font-weight: 500;
+}
+
+.navbar-toggler {
+  border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+      background-color: #00687A;
+      border-radius: 0 0 5px 5px;
+  }
+
+  .user-profile {
+    padding: 0;  /* Remove any extra padding */
+    margin: 0;   /* Remove any extra margin */
+  }
+  
+  .user-profile .dropdown-toggle {
+    padding: 5px 10px;  /* Adjust this to control the space inside the dropdown */
+    margin: 0;          /* Ensure no margin is applied */
+    border-radius: 20px; /* If you want rounded edges, adjust the radius */
+    margin-left:4px;
+  }
+
+  .main-content {
+      transition: margin-top 0.3s ease;
+  }
+
+  .navbar-collapse.show + .main-content {
+      margin-top: 20px; /* Adjust based on your collapsed navbar height */
+  }
+}
+
+/* Additional styles for better visibility and interaction */
+.nav-item {
+  padding: 5px 0;
+}
+
+.custom-nav-link:hover, .custom-nav-link:focus {
+  background-color: #00687A;
+  ;
+  text-decoration: none;
+}
+
+.text-custom {
+  font-size: 15px;
+}
+
+.user-profile {
+  padding: 0;  /* Remove any extra padding */
+  margin: 0;   /* Remove any extra margin */
+}
+
+.user-profile .dropdown-toggle {
+  padding: 5px 10px;  /* Adjust this to control the space inside the dropdown */
+  margin: 0;          /* Ensure no margin is applied */
+  border-radius: 20px; /* If you want rounded edges, adjust the radius */
+  margin-left:4px;
+}
+
+
+
